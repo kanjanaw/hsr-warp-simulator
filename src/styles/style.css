@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'RPG-TH';
+  src: url('https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/font/RPG_TH.ttf')
+    format('truetype');
+}
+
+body {
+  font-family: 'RPG-TH', sans-serif;
+}

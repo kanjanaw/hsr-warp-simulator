@@ -1,20 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory
+} from 'vue-router'
 
 import Home from '../pages/Home.vue'
 import Warp from '../pages/Warp.vue'
 
-const routes = [
-  {
-    path: '/',
-    component: Home
-  },
-  {
-    path: '/warp',
-    component: Warp
-  }
-]
+const router = createRouter({
 
-export default createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHashHistory(
+    '/hsr-warp-simulator/'
+  ),
+
+  routes: [
+
+    {
+      path: '/',
+      component: Home
+    },
+
+    {
+      path: '/warp',
+      component: Warp
+    }
+
+  ]
+
 })
+
+export default router
