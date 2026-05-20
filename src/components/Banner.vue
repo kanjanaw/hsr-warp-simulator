@@ -44,8 +44,7 @@ defineProps({
 
                     <!-- characters -->
                     <div class="flex gap-4 mt-8">
-                        <img v-for="character in banner.characters" :key="character.id" :src="character.image" class="w-[100px]
-                   h-[340px]
+                        <img v-for="character in banner.characters" :key="character.id" :src="character.image" class="w-[100px] h-[340px]
                    rounded-full
                    object-cover" />
                     </div>
@@ -68,11 +67,8 @@ defineProps({
             </div>
 
         </div>
-        <img :src="banner.image" :alt="banner.name" class="absolute z-0 inset-0 
-             w-full h-full 
-             object-cover" />
+        <img :src="banner.image" :alt="banner.name" class="absolute z-0 inset-0 w-full h-full object-cover" />
     </div>
-
 
 
 </template>
