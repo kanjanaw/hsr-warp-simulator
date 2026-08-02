@@ -3,7 +3,6 @@ import {
   createWebHashHistory
 } from 'vue-router'
 
-import Home from '../pages/Home.vue'
 import Warp from '../pages/Warp.vue'
 
 const router = createRouter({
@@ -16,7 +15,7 @@ const router = createRouter({
 
     {
       path: '/',
-      component: Home
+      redirect: '/warp'
     },
 
     {
