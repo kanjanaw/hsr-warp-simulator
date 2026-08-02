@@ -517,6 +517,34 @@ const states = ref({
 const history = ref([])
 
 const banner = computed(() => banners.value[activeTab.value] || baseBanners.standardBanner)
+
+const bannerFeaturedMeta = computed(() => {
+  if (!starRailResourcesReady.value || banner.value.type === 'standard') return null
+
+  const featured = banner.value.featured5
+  const sourceId = getResultSourceId(featured)
+  if (!sourceId) return null
+
+  if (banner.value.type === 'character') {
+    return resolveCharacterMeta(sourceId, {
+      name: featured?.name || banner.value.featuredName,
+      rarity: featured?.rarity || 5,
+      portrait: featured?.portrait || banner.value.image,
+      icon: featured?.image,
+    })
+  }
+
+  if (banner.value.type === 'lightCone') {
+    return resolveLightConeMeta(sourceId, {
+      name: featured?.name || banner.value.featuredName,
+      rarity: featured?.rarity || 5,
+      portrait: featured?.portrait || banner.value.image,
+      icon: featured?.image,
+    })
+  }
+
+  return null
+})
 const selectedArchivePatch = computed(() => BANNER_ARCHIVE.find(item => item.version === archiveVersion.value) || BANNER_ARCHIVE.at(-1))
 const selectedArchivePhase = computed(() => selectedArchivePatch.value.phases.find(item => item.phase === archivePhase.value) || selectedArchivePatch.value.phases[0])
 const poolType = computed(() => banner.value.type)
@@ -923,7 +951,9 @@ function scrollVersionPicker(event) {
         <div class="banner-copy">
           <span class="banner-tag">{{ banner.tag }}</span>
           <p class="small-title">เพิ่มอัตราการได้รับ</p>
+
           <h2>{{ banner.featuredName }}</h2>
+
           <p class="description">ทุก 10 ครั้ง รับประกันไอเทม 4 ดาวขึ้นไป<br>และรับประกัน 5 ดาวภายใน {{ config.hardPity5 }} ครั้ง</p>
           <div class="banner-badges">
             <div class="rate-badge" v-if="poolType !== 'standard'">{{ Math.round(config.featuredRate5 * 100) }}% เรท UP</div>
@@ -950,6 +980,43 @@ function scrollVersionPicker(event) {
 
         <img class="hero-character" :src="banner.image" :alt="banner.featuredName" loading="eager" decoding="async" fetchpriority="high">
 
+        <div
+          v-if="banner.type === 'character' && bannerFeaturedMeta"
+          class="banner-character-overlay"
+        >
+          <div class="banner-overlay-row banner-overlay-name">
+            <img
+              v-if="bannerFeaturedMeta.element?.icon"
+              :src="bannerFeaturedMeta.element.icon"
+              :alt="bannerFeaturedMeta.element.name || 'Element'"
+            >
+            <span>{{ bannerFeaturedMeta.name || banner.featuredName }}</span>
+          </div>
+
+          <div class="banner-overlay-row banner-overlay-path">
+            <img
+              v-if="bannerFeaturedMeta.path?.icon"
+              :src="bannerFeaturedMeta.path.icon"
+              :alt="bannerFeaturedMeta.path.name || 'Path'"
+            >
+            <span>{{ bannerFeaturedMeta.path?.name }}</span>
+          </div>
+        </div>
+
+        <div
+          v-else-if="banner.type === 'lightCone' && bannerFeaturedMeta?.path"
+          class="banner-character-overlay banner-light-cone-overlay"
+        >
+          <div class="banner-overlay-row banner-overlay-path">
+            <img
+              v-if="bannerFeaturedMeta.path.icon"
+              :src="bannerFeaturedMeta.path.icon"
+              :alt="bannerFeaturedMeta.path.name || 'Path'"
+            >
+            <span>{{ bannerFeaturedMeta.path.name }}</span>
+          </div>
+        </div>
+
         <div class="pity-panel">
           <div class="pity-heading"><span>สัญญาณค้นหาปัจจุบัน</span><strong>{{ currentState.totalPulls }} โรล</strong></div>
           <div class="pity-grid">
@@ -963,8 +1030,8 @@ function scrollVersionPicker(event) {
         </div>
 
         <div class="warp-actions">
-          <button :disabled="isWarpAnimating || isBannerLoading" @click="warp(1)"><small>ใช้ตั๋ว ×1</small><strong>วาร์ป 1 ครั้ง</strong></button>
-          <button class="primary" :disabled="isWarpAnimating || isBannerLoading" @click="warp(10)"><small>ใช้ตั๋ว ×10</small><strong>วาร์ป 10 ครั้ง</strong></button>
+          <button :disabled="isWarpAnimating || isBannerLoading" @click="warp(1)"><strong>วาร์ป 1 ครั้ง</strong></button>
+          <button class="primary" :disabled="isWarpAnimating || isBannerLoading" @click="warp(10)"><strong>วาร์ป 10 ครั้ง</strong></button>
         </div>
       </div>
     </section>
@@ -1665,5 +1732,167 @@ function scrollVersionPicker(event) {
 }
 @media(prefers-reduced-motion:reduce){
   .five-star-path-intro,.five-star-intro-stars{animation:none!important}
+}
+
+
+/* Banner featured character metadata */
+.banner-featured-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 10px;
+}
+.banner-featured-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.banner-featured-meta-row img {
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
+  filter: none;
+}
+.banner-featured-meta-row span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.banner-featured-meta-row.character-name-row {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.banner-featured-meta-row.character-name-row img {
+  width: 20px;
+  height: 20px;
+}
+.banner-featured-meta-row.path-row {
+  color: #d5d8e2;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.banner-featured-meta-row.path-row img {
+  width: 18px;
+  height: 18px;
+}
+.banner-featured-meta.light-cone-meta {
+  margin-top: -2px;
+}
+@media (max-width: 760px) {
+  .banner-featured-meta {
+    gap: 4px;
+    margin: 2px 0 6px;
+  }
+  .banner-featured-meta-row.character-name-row {
+    font-size: 18px;
+  }
+  .banner-featured-meta-row.character-name-row img {
+    width: 19px;
+    height: 19px;
+  }
+  .banner-featured-meta-row.path-row {
+    font-size: 13px;
+  }
+  .banner-featured-meta-row.path-row img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Banner character metadata overlay */
+.banner-character-overlay {
+  position: absolute;
+  z-index: 3;
+  right: 34px;
+  bottom: 142px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 9px 12px;
+  color: #fff;
+  background: linear-gradient(90deg, rgba(7, 10, 18, 0.58), rgba(7, 10, 18, 0.08));
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.banner-overlay-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.banner-overlay-row img {
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.banner-overlay-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.banner-overlay-name img {
+  width: 40px;
+  height: 40px;
+}
+
+.banner-overlay-path {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #d5d8e2;
+}
+
+.banner-overlay-path img {
+  width: 35px;
+  height: 35px;
+}
+
+.banner-light-cone-overlay {
+  bottom: 142px;
+}
+
+@media (max-width: 1100px) {
+  .banner-character-overlay {
+    right: 22px;
+    bottom: 138px;
+  }
+}
+
+@media (max-width: 760px) {
+  .banner-character-overlay {
+    top: 250px;
+    right: 16px;
+    bottom: auto;
+    max-width: calc(100% - 32px);
+    padding: 7px 10px;
+  }
+
+  .banner-overlay-name {
+    font-size: 17px;
+  }
+
+  .banner-overlay-name img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .banner-overlay-path {
+    font-size: 13px;
+  }
+
+  .banner-overlay-path img {
+    width: 16px;
+    height: 16px;
+  }
 }
 </style>
