@@ -290,6 +290,10 @@ function applyPatchPhase(version, phaseName, preferredTabId = '') {
 
     const lightConeBanner = makeLightConeBanner(version, phaseName, characterName, fourStars)
     if (lightConeBanner) {
+      if (isCollab) {
+        lightConeBanner.tag = 'กิจกรรมวาร์ป Light Cone Collaboration'
+        lightConeBanner.archiveMeta.collab = true
+      }
       const lcId = `patch-${version}-${phaseIndex}-lc-${characterIndex}`
       nextBanners[lcId] = lightConeBanner
       nextTabs.push({
@@ -500,7 +504,11 @@ function rateUpStatusLabel(item) {
 }
 
 const states = ref({
-  character: createDefaultPoolState(), lightCone: createDefaultPoolState(), standard: createDefaultPoolState(),
+  character: createDefaultPoolState(),
+  lightCone: createDefaultPoolState(),
+  collabCharacter: createDefaultPoolState(),
+  collabLightCone: createDefaultPoolState(),
+  standard: createDefaultPoolState(),
 })
 const history = ref([])
 
@@ -508,6 +516,15 @@ const banner = computed(() => banners.value[activeTab.value] || baseBanners.stan
 const selectedArchivePatch = computed(() => BANNER_ARCHIVE.find(item => item.version === archiveVersion.value) || BANNER_ARCHIVE.at(-1))
 const selectedArchivePhase = computed(() => selectedArchivePatch.value.phases.find(item => item.phase === archivePhase.value) || selectedArchivePatch.value.phases[0])
 const poolType = computed(() => banner.value.type)
+// Limited ตัวใหม่และรีรันใช้ pity ร่วมกันตามประเภทตู้ปกติ
+// Collaboration แยก pity/การันตีออกจากตู้ปกติ และแชร์กันภายในกลุ่ม Collab เดียวกัน
+const pityStateKey = computed(() => {
+  if (poolType.value === 'standard') return 'standard'
+  if (banner.value.archiveMeta?.collab) {
+    return poolType.value === 'lightCone' ? 'collabLightCone' : 'collabCharacter'
+  }
+  return poolType.value
+})
 const activeBannerVersion = computed(() => banner.value.archiveMeta?.version || selectedPatchVersion.value || '4.4')
 const availableStandard4Characters = computed(() => standard4Characters.filter(item => compareVersion(item.debutVersion || '1.0', activeBannerVersion.value) <= 0))
 const availableStandard4 = computed(() => [...availableStandard4Characters.value, ...standard4LightCones])
@@ -520,7 +537,7 @@ const availableNormal4 = computed(() => availableStandard4.value.filter(item => 
   return !identities.some(identity => featured4IdentitySet.value.has(identity))
 }))
 const config = computed(() => POOL_CONFIGS[poolType.value])
-const currentState = computed(() => states.value[poolType.value])
+const currentState = computed(() => states.value[pityStateKey.value] || createDefaultPoolState())
 const pullsTo5 = computed(() => config.value.hardPity5 - currentState.value.pullsSince5)
 const pullsTo4 = computed(() => 10 - currentState.value.pullsSince4)
 const filteredHistory = computed(() => history.value.filter(item => {
@@ -669,6 +686,7 @@ async function warp(count) {
   if (isWarpAnimating.value || isBannerLoading.value) return
 
   const currentPoolType = poolType.value
+  const currentPityStateKey = pityStateKey.value
   const currentBannerName = banner.value.name
   const output = performWarps(config.value, currentState.value, buildPool(), count)
 
@@ -687,19 +705,19 @@ async function warp(count) {
 
     await new Promise(resolve => window.setTimeout(resolve, 480))
 
-    states.value[currentPoolType] = output.state
+    states.value[currentPityStateKey] = output.state
     latestResults.value = output.results
     history.value.unshift(...output.results.slice().reverse().map(result => ({
-      ...result, poolType: currentPoolType, bannerName: currentBannerName,
+      ...result, poolType: currentPoolType, pityGroup: currentPityStateKey, bannerName: currentBannerName,
     })))
     showResults.value = true
     window.setTimeout(startResultReveal, 0)
   } catch (error) {
     console.error('Warp animation failed', error)
-    states.value[currentPoolType] = output.state
+    states.value[currentPityStateKey] = output.state
     latestResults.value = output.results
     history.value.unshift(...output.results.slice().reverse().map(result => ({
-      ...result, poolType: currentPoolType, bannerName: currentBannerName,
+      ...result, poolType: currentPoolType, pityGroup: currentPityStateKey, bannerName: currentBannerName,
     })))
     showResults.value = true
     window.setTimeout(startResultReveal, 0)
@@ -763,7 +781,13 @@ function skipWarpAnimation() {
 
 function resetProgress() {
   if (!window.confirm('ล้าง pity และประวัติกาชาทั้งหมดหรือไม่?')) return
-  states.value = { character: createDefaultPoolState(), lightCone: createDefaultPoolState(), standard: createDefaultPoolState() }
+  states.value = {
+    character: createDefaultPoolState(),
+    lightCone: createDefaultPoolState(),
+    collabCharacter: createDefaultPoolState(),
+    collabLightCone: createDefaultPoolState(),
+    standard: createDefaultPoolState(),
+  }
   history.value = []
   latestResults.value = []
   visibleResultCount.value = 0
@@ -783,6 +807,10 @@ onMounted(() => {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
     if (saved?.states) states.value = { ...states.value, ...saved.states }
+    // โปรเจกต์เวอร์ชันเก่ายังไม่มี state ของ Collaboration ให้เริ่มใหม่โดยไม่แตะ pity ตู้ปกติ
+    for (const key of ['character', 'lightCone', 'collabCharacter', 'collabLightCone', 'standard']) {
+      states.value[key] = { ...createDefaultPoolState(), ...(states.value[key] || {}) }
+    }
     if (Array.isArray(saved?.history)) history.value = saved.history.map(normalizeSavedHistoryItem)
     if (saved?.selectedPatchVersion) selectedPatchVersion.value = saved.selectedPatchVersion
     if (saved?.selectedPatchPhase) selectedPatchPhase.value = saved.selectedPatchPhase
