@@ -6,6 +6,7 @@ let resourceCache = {
   characters: {},
   paths: {},
   elements: {},
+  lightCones: {},
 }
 
 function toRecord(value) {
@@ -34,11 +35,13 @@ export async function loadStarRailResources() {
       fetchJson('characters.json'),
       fetchJson('paths.json'),
       fetchJson('elements.json'),
-    ]).then(([characters, paths, elements]) => {
+      fetchJson('light_cones.json'),
+    ]).then(([characters, paths, elements, lightCones]) => {
       resourceCache = {
         characters: toRecord(characters),
         paths: toRecord(paths),
         elements: toRecord(elements),
+        lightCones: toRecord(lightCones),
       }
       return resourceCache
     }).catch(error => {
@@ -61,6 +64,31 @@ function resolveIndexedValue(value, dictionary) {
   if (!value) return null
   if (typeof value === 'object') return value
   return dictionary[String(value)] || { id: String(value), name: String(value) }
+}
+
+
+export function getLightConeResource(lightConeId) {
+  return resourceCache.lightCones[String(lightConeId)] || null
+}
+
+export function resolveLightConeMeta(lightConeId, fallback = {}) {
+  const lightCone = getLightConeResource(lightConeId)
+  if (!lightCone) return null
+
+  const path = resolveIndexedValue(lightCone.path, resourceCache.paths)
+
+  return {
+    id: String(lightCone.id ?? lightConeId),
+    name: lightCone.name || fallback.name || '',
+    rarity: Number(lightCone.rarity || fallback.rarity || 3),
+    portrait: assetUrl(lightCone.portrait || lightCone.preview || fallback.portrait),
+    icon: assetUrl(lightCone.icon || fallback.icon),
+    path: {
+      id: path?.id || lightCone.path || '',
+      name: path?.name || fallback.pathName || '',
+      icon: assetUrl(path?.icon || fallback.pathIcon),
+    },
+  }
 }
 
 export function resolveCharacterMeta(characterId, fallback = {}) {

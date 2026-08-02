@@ -7,7 +7,7 @@ import 'swiper/css/free-mode'
 import { POOL_CONFIGS, createDefaultPoolState, performWarps } from '../utils/gacha'
 import { BANNER_ARCHIVE, FOUR_STAR_DEBUT_VERSIONS, characterItem, fourStarItem, signatureLightConeItem } from '../data/bannerArchive'
 import { FIVE_STAR_LIGHT_CONES, MASTER_DATA_VERSION, getCharacter } from '../data/masterData.js'
-import { loadStarRailResources, resolveCharacterMeta } from '../data/starRailRes.js'
+import { loadStarRailResources, resolveCharacterMeta, resolveLightConeMeta } from '../data/starRailRes.js'
 
 const STORAGE_KEY = 'hsr-warp-simulator-v2'
 const activeTab = ref('currentBanner')
@@ -82,9 +82,20 @@ const currentRevealPathMeta = computed(() => {
     return currentRevealCharacterMeta.value?.path || null
   }
 
+  if (!starRailResourcesReady.value) return null
+
   const sourceId = getResultSourceId(item)
+  const lightConeMeta = resolveLightConeMeta(sourceId, {
+    name: item.name,
+    rarity: item.rarity,
+    portrait: getRevealPortrait(item),
+  })
+
+  if (lightConeMeta?.path?.icon) return lightConeMeta.path
+
+  // Fallback for signature Light Cones that are already mapped to their owner.
   const lightCone = FIVE_STAR_LIGHT_CONES[String(sourceId)]
-  if (!lightCone?.characterKey || !starRailResourcesReady.value) return null
+  if (!lightCone?.characterKey) return null
 
   const owner = getCharacter(lightCone.characterKey)
   if (!owner?.id) return null
@@ -409,7 +420,15 @@ const standard5LightCones = [
   ['but-the-battle-isnt-over', "But the Battle Isn't Over", '23003'], ['in-the-name-of-the-world', 'In the Name of the World', '23004'],
   ['moment-of-victory', 'Moment of Victory', '23005'], ['sleep-like-the-dead', 'Sleep Like the Dead', '23012'],
   ['time-waits-for-no-one', 'Time Waits for No One', '23013'],
-].map(([id, name, icon]) => ({ id, name, kind: 'Light Cone', image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/${icon}.png` }))
+].map(([id, name, icon]) => ({
+  id,
+  sourceId: icon,
+  lightConeId: icon,
+  name,
+  kind: 'Light Cone',
+  image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/${icon}.png`,
+  portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/light_cone_portrait/${icon}.png`,
+}))
 
 const standard4Characters = [
   ['march-7th', 'March 7th', '1001'], ['dan-heng', 'Dan Heng', '1002'], ['arlan', 'Arlan', '1008'],
