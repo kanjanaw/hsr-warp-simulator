@@ -278,6 +278,8 @@ function applyPatchPhase(version, phaseName, preferredTabId = '') {
     if (isCollab) {
       charBanner.tag = 'กิจกรรมวาร์ป Collaboration'
       charBanner.archiveMeta.collab = true
+      charBanner.archiveMeta.noFeatured4 = true
+      charBanner.featured4 = []
     }
     nextBanners[charId] = charBanner
     nextTabs.push({
@@ -293,6 +295,8 @@ function applyPatchPhase(version, phaseName, preferredTabId = '') {
       if (isCollab) {
         lightConeBanner.tag = 'กิจกรรมวาร์ป Light Cone Collaboration'
         lightConeBanner.archiveMeta.collab = true
+        lightConeBanner.archiveMeta.noFeatured4 = true
+        lightConeBanner.featured4 = []
       }
       const lcId = `patch-${version}-${phaseIndex}-lc-${characterIndex}`
       nextBanners[lcId] = lightConeBanner

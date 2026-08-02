@@ -68,8 +68,14 @@ function resolveFiveStar(config, state, pool) {
 }
 
 function resolveFourStar(config, state, pool) {
-  if (config.id === 'standard') {
-    return { ...randomItem(pool.standard4), featured: false, rateUpStatus: null }
+  const featured4 = Array.isArray(pool.featured4) ? pool.featured4.filter(Boolean) : []
+  const standard4 = Array.isArray(pool.standard4) ? pool.standard4.filter(Boolean) : []
+
+  // ตู้ถาวรและตู้ Collaboration ไม่มี 4★ Rate Up
+  // จึงสุ่มจาก Pool ปกติเท่านั้น และไม่สร้างสถานะชนะ/หลุดเรท/การันตี 4★
+  if (config.id === 'standard' || featured4.length === 0) {
+    state.guaranteedFeatured4 = false
+    return { ...randomItem(standard4), featured: false, rateUpStatus: null }
   }
 
   const wasGuaranteed = state.guaranteedFeatured4
@@ -77,7 +83,7 @@ function resolveFourStar(config, state, pool) {
   state.guaranteedFeatured4 = !featured
 
   return {
-    ...(featured ? randomItem(pool.featured4) : randomItem(pool.standard4)),
+    ...(featured ? randomItem(featured4) : randomItem(standard4)),
     featured,
     rateUpStatus: featured ? (wasGuaranteed ? 'guaranteed' : 'won') : 'lost',
   }
