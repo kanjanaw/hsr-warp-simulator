@@ -1,4 +1,4 @@
-const BASE = 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master'
+const BASE = 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master'
 
 const rows = [
   ['Seele','Seele',1102,'In the Night',23001],

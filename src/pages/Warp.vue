@@ -106,7 +106,7 @@ function syncFiveStarIntro() {
   showFiveStarIntro.value = Number(currentRevealResult.value?.rarity) === 5
 }
 
-const RESULT_IMAGE_BASE = 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image'
+const RESULT_IMAGE_BASE = 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image'
 
 function getRevealPortrait(item) {
   if (!item) return '/favicon.svg'
@@ -128,46 +128,46 @@ const bannerTabsDirection = computed(() => viewportWidth.value <= 760 ? 'horizon
 const updateViewportWidth = () => { viewportWidth.value = window.innerWidth }
 
 const baseTabs = [
-  { id: 'currentBanner', name: 'Evanescia', type: 'character', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1505.png' },
-  { id: 'rerunBanner', name: 'Evernight', type: 'character', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1413.png' },
-  { id: 'currentLCBanner', name: 'Featured Light Cone', type: 'lightCone', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/23049.png' },
-  { id: 'standardBanner', name: 'Stellar Warp', type: 'standard', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1001.png' },
+  { id: 'currentBanner', name: 'Evanescia', type: 'character', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1505.png' },
+  { id: 'rerunBanner', name: 'Evernight', type: 'character', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1413.png' },
+  { id: 'currentLCBanner', name: 'Featured Light Cone', type: 'lightCone', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/23049.png' },
+  { id: 'standardBanner', name: 'Stellar Warp', type: 'standard', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1001.png' },
 ]
 
 const baseBanners = {
   currentBanner: {
     name: 'พริ้งพิจพิจารณ์', type: 'character', tag: 'กิจกรรมวาร์ปตัวละคร', featuredName: 'Evanescia',
-    image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_portrait/1505.png',
-    featured5: { id: 'evanescia', name: 'Evanescia', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1505.png' },
+    image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/character_portrait/1505.png',
+    featured5: { id: 'evanescia', name: 'Evanescia', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1505.png' },
     featured4: [
-      { id: 'tingyun', name: 'Tingyun', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1202.png' },
-      { id: 'asta', name: 'Asta', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1009.png' },
-      { id: 'serval', name: 'Serval', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1103.png' },
+      { id: 'tingyun', name: 'Tingyun', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1202.png' },
+      { id: 'asta', name: 'Asta', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1009.png' },
+      { id: 'serval', name: 'Serval', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1103.png' },
     ],
   },
   rerunBanner: {
     name: 'ห้วงนิทรานิรันดร์', type: 'character', tag: 'กิจกรรมวาร์ปตัวละคร', featuredName: 'Evernight',
-    image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_portrait/1413.png',
-    featured5: { id: 'evernight', name: 'Evernight', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1413.png' },
+    image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/character_portrait/1413.png',
+    featured5: { id: 'evernight', name: 'Evernight', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1413.png' },
     featured4: [
-      { id: 'pela', name: 'Pela', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1106.png' },
-      { id: 'sampo', name: 'Sampo', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1108.png' },
-      { id: 'lynx', name: 'Lynx', kind: 'ตัวละคร', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/1110.png' },
+      { id: 'pela', name: 'Pela', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1106.png' },
+      { id: 'sampo', name: 'Sampo', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1108.png' },
+      { id: 'lynx', name: 'Lynx', kind: 'ตัวละคร', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/1110.png' },
     ],
   },
   currentLCBanner: {
     name: 'ประกายแห่งความทรงจำ', type: 'lightCone', tag: 'กิจกรรมวาร์ป Light Cone', featuredName: "To Evernight's Stars",
-    image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/light_cone_portrait/23049.png',
-    featured5: { id: 'lc-23049', name: "To Evernight's Stars", kind: 'Light Cone', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/23049.png' },
+    image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/light_cone_portrait/23049.png',
+    featured5: { id: 'lc-23049', name: "To Evernight's Stars", kind: 'Light Cone', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/23049.png' },
     featured4: [
-      { id: 'lc-21012', name: 'A Secret Vow', kind: 'Light Cone', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/21012.png' },
-      { id: 'lc-21008', name: 'Eyes of the Prey', kind: 'Light Cone', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/21008.png' },
-      { id: 'lc-21018', name: 'Dance! Dance! Dance!', kind: 'Light Cone', image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/21018.png' },
+      { id: 'lc-21012', name: 'A Secret Vow', kind: 'Light Cone', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/21012.png' },
+      { id: 'lc-21008', name: 'Eyes of the Prey', kind: 'Light Cone', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/21008.png' },
+      { id: 'lc-21018', name: 'Dance! Dance! Dance!', kind: 'Light Cone', image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/21018.png' },
     ],
   },
   standardBanner: {
     name: 'Stellar Warp', type: 'standard', tag: 'วาร์ปถาวร', featuredName: 'Stellar Warp',
-    image: 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_portrait/1001.png',
+    image: 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/character_portrait/1001.png',
     featured5: null, featured4: [],
   },
 }
@@ -349,8 +349,8 @@ const standard5Characters = [
   name,
   kind: 'ตัวละคร',
   debutVersion: FOUR_STAR_DEBUT_VERSIONS[name] || '1.0',
-  image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/${icon}.png`,
-  portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_portrait/${icon}.png`,
+  image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/${icon}.png`,
+  portrait: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/character_portrait/${icon}.png`,
 }))
 
 const extraOffRateCharacters = [
@@ -366,8 +366,8 @@ const extraOffRateCharacters = [
   characterId: icon,
   name,
   kind: 'ตัวละคร',
-  image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/${icon}.png`,
-  portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_portrait/${icon}.png`,
+  image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/${icon}.png`,
+  portrait: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/character_portrait/${icon}.png`,
 }))
 
 const limitedOffRateCandidates = [...standard5Characters, ...extraOffRateCharacters]
@@ -434,8 +434,8 @@ const standard5LightCones = [
   lightConeId: icon,
   name,
   kind: 'Light Cone',
-  image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/${icon}.png`,
-  portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/light_cone_portrait/${icon}.png`,
+  image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/${icon}.png`,
+  portrait: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/image/light_cone_portrait/${icon}.png`,
 }))
 
 const standard4Characters = [
@@ -451,7 +451,7 @@ const standard4Characters = [
   name,
   kind: 'ตัวละคร',
   debutVersion: FOUR_STAR_DEBUT_VERSIONS[name] || '1.0',
-  image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/character/${icon}.png`,
+  image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/character/${icon}.png`,
 }))
 
 const standard4LightCones = [
@@ -461,14 +461,14 @@ const standard4LightCones = [
   ['subscribe-for-more', 'Subscribe for More!', '21017'], ['perfect-timing', 'Perfect Timing', '21014'],
   ['planetary-rendezvous', 'Planetary Rendezvous', '21011'], ['under-the-blue-sky', 'Under the Blue Sky', '21019'],
   ['resolution-shines', 'Resolution Shines As Pearls of Sweat', '21015'], ['swordplay', 'Swordplay', '21010'],
-].map(([id, name, icon]) => ({ id, name, kind: 'Light Cone', image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/${icon}.png` }))
+].map(([id, name, icon]) => ({ id, name, kind: 'Light Cone', image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/${icon}.png` }))
 
 const standard4 = [...standard4Characters, ...standard4LightCones]
 
 const standard3 = [
   ['adversarial', 'Adversarial', '20014'], ['amber', 'Amber', '20003'], ['arrows', 'Arrows', '20000'],
   ['chorus', 'Chorus', '20005'], ['collapsing-sky', 'Collapsing Sky', '20002'], ['data-bank', 'Data Bank', '20006'],
-].map(([id, name, icon]) => ({ id, name, kind: 'Light Cone', image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/icon/light_cone/${icon}.png` }))
+].map(([id, name, icon]) => ({ id, name, kind: 'Light Cone', image: `https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/icon/light_cone/${icon}.png` }))
 
 const canonicalLightCones = [
   ...Object.values(FIVE_STAR_LIGHT_CONES),
@@ -625,19 +625,45 @@ function preloadImage(src, timeoutMs = 5000) {
   return task
 }
 
-function preloadBannerAssets() {
-  const urls = Object.values(banners.value).flatMap(item => [
-    item.image,
-    item.featured5?.image,
-    ...(item.featured4 || []).map(rateUp => rateUp.image),
-  ]).filter(Boolean)
+function getBannerPreloadUrls(bannerItem, includeRateUps = false) {
+  if (!bannerItem) return []
+  return [
+    bannerItem.image,
+    bannerItem.featured5?.image,
+    ...(includeRateUps ? (bannerItem.featured4 || []).map(item => item.image) : []),
+  ].filter(Boolean)
+}
 
-  const run = () => [...new Set(urls)].forEach(url => preloadImage(url, 3500))
+function preloadBannerAssets() {
+  // โหลดเฉพาะตู้ปัจจุบันและตู้ข้างเคียงก่อน เพื่อลด network contention
+  // ตู้ที่เหลือจะถูกโหลดเมื่อ browser ว่างหรือเมื่อผู้ใช้กำลังจะเลือกตู้
+  const currentIndex = tabs.value.findIndex(item => item.id === activeTab.value)
+  const nearbyIds = [
+    tabs.value[currentIndex]?.id,
+    tabs.value[currentIndex - 1]?.id,
+    tabs.value[currentIndex + 1]?.id,
+  ].filter(Boolean)
+
+  const priorityUrls = nearbyIds.flatMap((id, index) =>
+    getBannerPreloadUrls(banners.value[id], index === 0),
+  )
+
+  ;[...new Set(priorityUrls)].forEach(url => preloadImage(url, 3000))
+
+  const remainingUrls = tabs.value
+    .filter(item => !nearbyIds.includes(item.id))
+    .flatMap(item => getBannerPreloadUrls(banners.value[item.id], false))
+
+  const runWhenIdle = () => {
+    ;[...new Set(remainingUrls)].forEach((url, index) => {
+      window.setTimeout(() => preloadImage(url, 3000), index * 60)
+    })
+  }
 
   if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(run, { timeout: 1800 })
+    window.requestIdleCallback(runWhenIdle, { timeout: 2500 })
   } else {
-    window.setTimeout(run, 250)
+    window.setTimeout(runWhenIdle, 800)
   }
 }
 
@@ -648,19 +674,22 @@ async function switchBanner(tabId) {
   if (!nextBanner) return
 
   isBannerLoading.value = true
-  const minimumLoader = new Promise(resolve => window.setTimeout(resolve, 350))
-  const images = [
-    nextBanner.image,
-    nextBanner.featured5?.image,
-    ...(nextBanner.featured4 || []).map(item => item.image),
-  ]
+  const minimumLoader = new Promise(resolve => window.setTimeout(resolve, 180))
+  const criticalImages = getBannerPreloadUrls(nextBanner, false)
 
+  // รอเฉพาะ Hero และ 5★ ที่จำเป็นต่อเฟรมแรก
   await Promise.all([
     minimumLoader,
-    Promise.all([...new Set(images)].map(preloadImage)),
+    Promise.all([...new Set(criticalImages)].map(src => preloadImage(src, 3000))),
   ])
 
   activeTab.value = tabId
+
+  // ภาพ 4★ โหลดตามหลังแบบ background ไม่บล็อกการสลับตู้
+  window.setTimeout(() => {
+    ;[...new Set((nextBanner.featured4 || []).map(item => item.image).filter(Boolean))]
+      .forEach(src => preloadImage(src, 3000))
+  }, 0)
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
       isBannerLoading.value = false
@@ -967,7 +996,7 @@ function scrollVersionPicker(event) {
             </div>
             <div class="featured-four-list">
               <article v-for="item in banner.featured4" :key="item.id" class="featured-four-card">
-                <img :src="item.image" :alt="item.name" loading="eager" decoding="async">
+                <img :src="item.image" :alt="item.name" loading="lazy" decoding="async" fetchpriority="low">
                 <div>
                   <strong>{{ item.name }}</strong>
                   <small>{{ item.kind }}<template v-if="item.element || item.path"> • {{ item.element }} • {{ item.path }}</template></small>

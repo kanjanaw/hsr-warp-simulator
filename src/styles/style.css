@@ -2,8 +2,9 @@
 
 @font-face {
   font-family: 'RPG-TH';
-  src: url('https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/font/RPG_TH.ttf')
+  src: url('https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/font/RPG_TH.ttf')
     format('truetype');
+  font-display: swap;
 }
 
 body {

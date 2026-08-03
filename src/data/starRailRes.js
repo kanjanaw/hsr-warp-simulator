@@ -1,4 +1,4 @@
-const RAW_BASE = 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/'
+const RAW_BASE = 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/'
 const INDEX_BASE = `${RAW_BASE}index_min/th/`
 
 let resourcePromise = null

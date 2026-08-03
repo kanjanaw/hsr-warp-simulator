@@ -1,6 +1,6 @@
 import { createCharacterItem, createSignatureLightConeItem } from './masterData.js'
 
-const BASE = 'https://raw.githubusercontent.com/Mar-7th/StarRailRes/master'
+const BASE = 'https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master'
 
 export const FOUR_STAR_DEBUT_VERSIONS = {
   'March 7th':'1.0','Dan Heng':'1.0','Arlan':'1.0','Asta':'1.0','Herta':'1.0','Natasha':'1.0','Pela':'1.0',
